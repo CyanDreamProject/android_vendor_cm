@@ -159,13 +159,13 @@ PRODUCT_PACKAGES += \
 
 # Custom CM packages
 PRODUCT_PACKAGES += \
-    Launcher2 \
+    Trebuchet \
     DSPManager \
     libcyanogen-dsp \
     audio_effects.conf \
     CMWallpapers \
     Apollo \
-  # CMUpdater \
+  # CMUpdater \#
     CMFileManager \
     LockClock
 
