@@ -137,6 +137,10 @@ PRODUCT_COPY_FILES += \
 # Don't export PS1 in /system/etc/mkshrc.
 PRODUCT_COPY_FILES += \
     vendor/cm/prebuilt/common/etc/mkshrc:system/etc/mkshrc
+    
+# Copy prebuilt launcher
+#PRODUCT_COPY_FILES += \
+#		packages/apps/prebuilt/sslauncher_cyandream.apk:system/app/sslauncher_cyandream.apk
 
 # T-Mobile theme engine
 include vendor/cm/config/themes_common.mk
@@ -159,13 +163,13 @@ PRODUCT_PACKAGES += \
 
 # Custom CM packages
 PRODUCT_PACKAGES += \
-    Launcher2 \
+    Trebuchet \
     DSPManager \
     libcyanogen-dsp \
     audio_effects.conf \
     CMWallpapers \
     Apollo \
-  # CMUpdater \
+  # CMUpdater \#
     CMFileManager \
     LockClock
 
