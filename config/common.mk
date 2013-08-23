@@ -153,6 +153,10 @@ PRODUCT_PACKAGES += \
     Superuser \
     su
 
+# CyanDream packages
+PRODUCT_PACKAGES += \
+    UpdateChecker
+
 # Optional CM packages
 PRODUCT_PACKAGES += \
     VoicePlus \
