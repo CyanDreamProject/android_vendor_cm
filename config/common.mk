@@ -155,7 +155,7 @@ PRODUCT_PACKAGES += \
 
 # CyanDream packages
 PRODUCT_PACKAGES += \
-    UpdateChecker
+    ControlCenter
 
 # Optional CM packages
 PRODUCT_PACKAGES += \
