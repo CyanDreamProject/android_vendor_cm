@@ -21,9 +21,9 @@ DEVICE="$1"
 SYNC="$2"
 
 # get current version
-VERSION_MAJOR=$(cat $DIR/vendor/cm/config/common.mk | grep 'CYAN_DREAM_VERSION_MAJOR := *' | sed  's/CYAN_DREAM_VERSION_MAJOR := //g')
-VERSION_MINOR=$(cat $DIR/vendor/cm/config/common.mk | grep 'CYAN_DREAM_VERSION_MINOR := *' | sed  's/CYAN_DREAM_VERSION_MINOR := //g')
-VERSION_MAINTENANCE=$(cat $DIR/vendor/cm/config/common.mk | grep 'CYAN_DREAM_VERSION_MAINTENANCE := *' | sed  's/CYAN_DREAM_VERSION_MAINTENANCE := //g')
+VERSION_MAJOR=$(cat $DIR/vendor/cyandream/config/common.mk | grep 'CYAN_DREAM_VERSION_MAJOR := *' | sed  's/CYAN_DREAM_VERSION_MAJOR := //g')
+VERSION_MINOR=$(cat $DIR/vendor/cyandream/config/common.mk | grep 'CYAN_DREAM_VERSION_MINOR := *' | sed  's/CYAN_DREAM_VERSION_MINOR := //g')
+VERSION_MAINTENANCE=$(cat $DIR/vendor/cyandream/config/common.mk | grep 'CYAN_DREAM_VERSION_MAINTENANCE := *' | sed  's/CYAN_DREAM_VERSION_MAINTENANCE := //g')
 VERSION=$VERSION_MAJOR.$VERSION_MINOR$VERSION_MAINTENANCE
 
 # get time of startup

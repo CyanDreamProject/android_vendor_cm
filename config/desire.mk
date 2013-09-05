@@ -1,10 +1,10 @@
 # GSM APN list
 PRODUCT_COPY_FILES += \
-    vendor/cm/prebuilt/common/etc/apns-conf.xml:system/etc/apns-conf.xml
+    vendor/cyandream/prebuilt/common/etc/apns-conf.xml:system/etc/apns-conf.xml
 
 # GSM SPN overrides list
 PRODUCT_COPY_FILES += \
-    vendor/cm/prebuilt/common/etc/spn-conf.xml:system/etc/spn-conf.xml
+    vendor/cyandream/prebuilt/common/etc/spn-conf.xml:system/etc/spn-conf.xml
 
 # SIM Toolkit
 PRODUCT_PACKAGES += \
@@ -21,7 +21,7 @@ PRODUCT_PACKAGES += \
 
 ifeq ($(TARGET_SCREEN_WIDTH) $(TARGET_SCREEN_HEIGHT),$(space))
     PRODUCT_COPY_FILES += \
-        vendor/cm/prebuilt/common/bootanimation/480.zip:system/media/bootanimation.zip
+        vendor/cyandream/prebuilt/common/bootanimation/480.zip:system/media/bootanimation.zip
 endif
 
 # Bring in all audio files
@@ -31,7 +31,7 @@ include frameworks/base/data/sounds/NewAudio.mk
 include frameworks/base/data/sounds/AudioPackageNewWave.mk
 
 # Include CM audio files
-include vendor/cm/config/cm_audio.mk
+include vendor/cyandream/config/cm_audio.mk
 
 # Optional CM packages
 PRODUCT_PACKAGES += \

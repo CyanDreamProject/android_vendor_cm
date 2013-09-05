@@ -4,7 +4,7 @@
 #
 
 BOARD_SEPOLICY_DIRS := \
-    vendor/cm/sepolicy
+    vendor/cyandream/sepolicy
 
 BOARD_SEPOLICY_UNION := \
     mac_permissions.xml
