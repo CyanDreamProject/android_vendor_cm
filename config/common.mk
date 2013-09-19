@@ -146,7 +146,6 @@ include vendor/cyandream/config/themes_common.mk
 
 # Required CM packages
 PRODUCT_PACKAGES += \
-    Focal \
     Development \
     LatinIME \
     Superuser \
