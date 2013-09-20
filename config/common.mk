@@ -149,6 +149,7 @@ PRODUCT_PACKAGES += \
     Development \
     LatinIME \
     Superuser \
+    BluetoothExt \
     su
 
 # CyanDream packages
