@@ -155,7 +155,8 @@ PRODUCT_PACKAGES += \
 # CyanDream packages
 PRODUCT_PACKAGES += \
     ControlCenter \
-    CyanDreamWallpapers
+    CyanDreamWallpapers \
+    xdelta3
 
 # Optional CM packages
 PRODUCT_PACKAGES += \
