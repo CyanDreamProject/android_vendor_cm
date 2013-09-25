@@ -49,7 +49,7 @@ $(foreach size,$(bootanimation_sizes), $(call check_and_set_bootanimation,$(size
 PRODUCT_BOOTANIMATION := vendor/cyandream/prebuilt/common/bootanimation/$(TARGET_BOOTANIMATION_NAME).zip
 endif
 
-ifdef CM_NIGHTLY
+ifdef CD_NIGHTLY
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.rommanager.developerid=cyanogenmodnightly
 else
@@ -227,45 +227,45 @@ PRODUCT_PACKAGE_OVERLAYS += vendor/cyandream/overlay/common
 PRODUCT_VERSION_MAJOR = 1
 PRODUCT_VERSION_MINOR = 0
 
-# Set CM_BUILDTYPE
-ifdef CM_NIGHTLY
-    CM_BUILDTYPE := NIGHTLY
+# Set CD_BUILDTYPE
+ifdef CD_NIGHTLY
+    CD_BUILDTYPE := NIGHTLY
 endif
-ifdef CM_EXPERIMENTAL
-    CM_BUILDTYPE := EXPERIMENTAL
+ifdef CD_EXPERIMENTAL
+    CD_BUILDTYPE := EXPERIMENTAL
 endif
-ifdef CM_RELEASE
-    CM_BUILDTYPE := RELEASE
+ifdef CD_RELEASE
+    CD_BUILDTYPE := RELEASE
 endif
 
-ifdef CM_BUILDTYPE
-    ifdef CM_EXTRAVERSION
+ifdef CD_BUILDTYPE
+    ifdef CD_EXTRAVERSION
         # Force build type to EXPERIMENTAL
-        CM_BUILDTYPE := EXPERIMENTAL
-        # Remove leading dash from CM_EXTRAVERSION
-        CM_EXTRAVERSION := $(shell echo $(CM_EXTRAVERSION) | sed 's/-//')
-        # Add leading dash to CM_EXTRAVERSION
-        CM_EXTRAVERSION := -$(CM_EXTRAVERSION)
+        CD_BUILDTYPE := EXPERIMENTAL
+        # Remove leading dash from CD_EXTRAVERSION
+        CD_EXTRAVERSION := $(shell echo $(CD_EXTRAVERSION) | sed 's/-//')
+        # Add leading dash to CD_EXTRAVERSION
+        CD_EXTRAVERSION := -$(CD_EXTRAVERSION)
     endif
 else
-    # If CM_BUILDTYPE is not defined, set to UNOFFICIAL
-    CM_BUILDTYPE := UNOFFICIAL
-    CM_EXTRAVERSION :=
+    # If CD_BUILDTYPE is not defined, set to UNOFFICIAL
+    CD_BUILDTYPE := UNOFFICIAL
+    CD_EXTRAVERSION :=
 endif
 
-ifdef CM_RELEASE
-    CM_VERSION := $(PRODUCT_VERSION_MAJOR).$(PRODUCT_VERSION_MINOR)$(PRODUCT_VERSION_DEVICE_SPECIFIC)-$(CM_BUILD)
+ifdef CD_RELEASE
+    CD_VERSION := $(PRODUCT_VERSION_MAJOR).$(PRODUCT_VERSION_MINOR)$(PRODUCT_VERSION_DEVICE_SPECIFIC)-$(CD_BUILD)
 else
     ifeq ($(PRODUCT_VERSION_MINOR),0)
-        CM_VERSION := $(PRODUCT_VERSION_MAJOR)-$(shell date +%Y%m%d)-$(CM_BUILDTYPE)-$(CM_BUILD)$(CM_EXTRAVERSION)
+        CD_VERSION := $(PRODUCT_VERSION_MAJOR)-$(shell date +%Y%m%d)-$(CD_BUILDTYPE)-$(CD_BUILD)$(CD_EXTRAVERSION)
     else
-        CM_VERSION := $(PRODUCT_VERSION_MAJOR).$(PRODUCT_VERSION_MINOR)-$(shell date +%Y%m%d)-$(CM_BUILDTYPE)-$(CM_BUILD)$(CM_EXTRAVERSION)
+        CD_VERSION := $(PRODUCT_VERSION_MAJOR).$(PRODUCT_VERSION_MINOR)-$(shell date +%Y%m%d)-$(CD_BUILDTYPE)-$(CD_BUILD)$(CD_EXTRAVERSION)
     endif
 endif
 
 PRODUCT_PROPERTY_OVERRIDES += \
-  ro.cm.version=$(CM_VERSION) \
-  ro.modversion=$(CM_VERSION)
+  ro.cm.version=$(CD_VERSION) \
+  ro.modversion=$(CD_VERSION)
 
 -include vendor/cyandream/sepolicy/sepolicy.mk
 -include $(WORKSPACE)/hudson/image-auto-bits.mk
