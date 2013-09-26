@@ -1,66 +1,165 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-# get current path
-reldir=`dirname $0`
-cd $reldir
-DIR=`pwd`
+function check_result {
+  if [ "0" -ne "$?" ]
+  then
+    (repo forall -c "git reset --hard") >/dev/null
+    rm -f .repo/local_manifests/dyn-*.xml
+    rm -f .repo/local_manifests/roomservice.xml
+    echo $1
+    exit 1
+  fi
+}
 
-# Colorize and add text parameters
-red=$(tput setaf 1)             #  red
-grn=$(tput setaf 2)             #  green
-cya=$(tput setaf 6)             #  cyan
-txtbld=$(tput bold)             # Bold
-bldred=${txtbld}$(tput setaf 1) #  red
-bldgrn=${txtbld}$(tput setaf 2) #  green
-bldblu=${txtbld}$(tput setaf 4) #  blue
-bldcya=${txtbld}$(tput setaf 6) #  cyan
-txtrst=$(tput sgr0)             # Reset
-
-THREADS="16"
-DEVICE="$1"
-SYNC="$2"
-
-# get current version
-VERSION_MAJOR=$(cat $DIR/vendor/cyandream/config/common.mk | grep 'CYAN_DREAM_VERSION_MAJOR := *' | sed  's/CYAN_DREAM_VERSION_MAJOR := //g')
-VERSION_MINOR=$(cat $DIR/vendor/cyandream/config/common.mk | grep 'CYAN_DREAM_VERSION_MINOR := *' | sed  's/CYAN_DREAM_VERSION_MINOR := //g')
-VERSION_MAINTENANCE=$(cat $DIR/vendor/cyandream/config/common.mk | grep 'CYAN_DREAM_VERSION_MAINTENANCE := *' | sed  's/CYAN_DREAM_VERSION_MAINTENANCE := //g')
-VERSION=$VERSION_MAJOR.$VERSION_MINOR$VERSION_MAINTENANCE
-
-# get time of startup
-res1=$(date +%s.%N)
-
-# we don't allow scrollback buffer
-echo -e '\0033\0143'
-clear
-
-echo -e "${cya}Building ${bldcya}CyanDream v$VERSION ${txtrst}";
-
-# sync with latest sources
-echo -e ""
-if [ "$SYNC" == "true" ]
+if [ -z "$REPO_BRANCH" ]
 then
-   echo -e "${bldblu}Fetching latest sources ${txtrst}"
-   repo sync -j"$THREADS"
-   echo -e ""
+	if [ -z "$2" ]
+	then
+		export REPO_BRANCH=cd-4.3
+	else
+		export REPO_BRANCH=$2
+	fi
 fi
 
-# delete old builds if it's not a clean build
-echo -e "${bldblu}Deleting old builds ${txtrst}"
-rm -f $DIR/out/target/product/$DEVICE/CyanDream*
-rm -f $DIR/out/target/product/$DEVICE/system/build.prop
-rm -f $DIR/out/target/product/$DEVICE/obj/PACKAGING/target_files_intermediates/cm_$DEVICE-target_files-eng.beerbong/SYSTEM/build.prop
-echo -e "${txtrst}Done deleting old builds \n ${txtrst}"
+if [ -z "$DEVICE" ]
+then
+  export DEVICE=$1
+fi
 
-# setup environment
-echo -e "${bldblu}Setting up environment ${txtrst}"
+if [ -z "$SYNC_PROTO" ]
+then
+  SYNC_PROTO=http
+fi
+export LUNCH=cd_$DEVICE-userdebug
+
+# colorization fix in Jenkins
+export CL_RED="\"\033[31m\""
+export CL_GRN="\"\033[32m\""
+export CL_YLW="\"\033[33m\""
+export CL_BLU="\"\033[34m\""
+export CL_MAG="\"\033[35m\""
+export CL_CYN="\"\033[36m\""
+export CL_RST="\"\033[0m\""
+
+export PATH=~/bin:$PATH
+
 export USE_CCACHE=1
+export CCACHE_NLEVELS=4
+export BUILD_WITH_COLORS=0
+
+platform=`uname -s`
+if [ "$platform" = "Darwin" ]
+then
+  export BUILD_MAC_SDK_EXPERIMENTAL=1
+fi
+
+REPO=$(which repo)
+if [ -z "$REPO" ]
+then
+  mkdir -p ~/bin
+  curl https://dl-ssl.google.com/dl/googlesource/git-repo/repo > ~/bin/repo
+  chmod a+x ~/bin/repo
+fi
+
+# always force a fresh repo init since we can build off different branches
+# and the "default" upstream branch can get stuck on whatever was init first.
+if [ -z "$CORE_BRANCH" ]
+then
+  CORE_BRANCH=$REPO_BRANCH
+fi
+
+if [ ! -z "$RELEASE_MANIFEST" ]
+then
+  MANIFEST="-m $RELEASE_MANIFEST"
+else
+  RELEASE_MANIFEST=""
+  MANIFEST=""
+fi
+
+rm -rf .repo/manifests*
+rm -f .repo/local_manifests/dyn-*.xml
+repo init -u $SYNC_PROTO://github.com/CyanDreamProject/android.git -b $CORE_BRANCH $MANIFEST
+check_result "repo init failed."
+
+# make sure ccache is in PATH
+if [ "$REPO_BRANCH" = "cd-4.3" ]
+then
+export PATH="$PATH:/opt/local/bin/:$PWD/prebuilts/misc/$(uname|awk '{print tolower($0)}')-x86/ccache"
+export CCACHE_DIR=~/.jb_ccache
+else
+export PATH="$PATH:/opt/local/bin/:$PWD/prebuilt/$(uname|awk '{print tolower($0)}')-x86/ccache"
+export CCACHE_DIR=~/.ics_ccache
+fi
+
+if [ -f ~/.jenkins_profile ]
+then
+  . ~/.jenkins_profile
+fi
+
+mkdir -p .repo/local_manifests
+rm -f .repo/local_manifest.xml
+rm -f .repo/local_manifests/device.xml
+
+if [ "$DEVICE" = "ace" ]
+then
+  cp local_manifests/ace_manifest.xml .repo/local_manifests/device.xml
+elif [ "$DEVICE" = "bravo" ]
+then
+  cp local_manifests/bravo_manifest.xml .repo/local_manifests/device.xml
+else
+  echo a local_manifest does not exist, skipping.
+fi
+
+check_result "Bootstrap failed"
+
+echo Core Manifest:
+cat .repo/manifest.xml
+
+# delete symlink for vendor before sync
+rm -rf vendor/cm
+
+echo Syncing...
+repo sync -d -c > /dev/null
+check_result "repo sync failed."
+
+echo Sync complete.
+
+vendor/cyandream/get-prebuilts
+
+# workaround for devices that are not 100% supported by CyanDream
+echo creating symlink...
+ln -s vendor/cyandream vendor/cm
+
+if [ -f .last_branch ]
+then
+  LAST_BRANCH=$(cat .last_branch)
+else
+  echo "Last build branch is unknown, assume clean build"
+  LAST_BRANCH=$REPO_BRANCH-$CORE_BRANCH$RELEASE_MANIFEST
+fi
+
 . build/envsetup.sh
 
-# brunch device
-echo -e ""
-echo -e "${bldblu}Brunching device ${txtrst}"
-brunch $DEVICE;
+lunch $LUNCH
+check_result "lunch failed."
 
-# finished? get elapsed time
-res2=$(date +%s.%N)
-echo "${bldgrn}Total time elapsed: ${txtrst}${grn}$(echo "($res2 - $res1) / 60"|bc ) minutes ($(echo "$res2 - $res1"|bc ) seconds) ${txtrst}"
+# save manifest used for build (saving revisions as current HEAD)
+
+# save it
+repo manifest -o $WORKSPACE/archive/manifest.xml -r
+
+rm -f $OUT/CyanDream-*.zip*
+rm -f $OUT/system/build.prop
+
+UNAME=$(uname)
+
+if [ ! "$(ccache -s|grep -E 'max cache size'|awk '{print $4}')" = "100.0" ]
+then
+  ccache -M 20G
+fi
+
+time mka bacon
+
+check_result "Build failed."
+
+rm -f .repo/local_manifests/roomservice.xml

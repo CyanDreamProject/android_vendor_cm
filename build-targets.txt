@@ -1,6 +1,0 @@
-# Build targets list
-
-cm_mako-userdebug
-cm_maguro-userdebug
-cm_ace-userdebug
-cm_bravo-userdebug
