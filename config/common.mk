@@ -227,25 +227,41 @@ PRODUCT_PACKAGE_OVERLAYS += vendor/cyandream/overlay/common
 PRODUCT_VERSION_MAJOR = 1
 PRODUCT_VERSION_MINOR = 0
 
-# Set CD_BUILDTYPE
-ifdef CD_NIGHTLY
-    CD_BUILDTYPE := NIGHTLY
+# Set CD_BUILDTYPE from the env RELEASE_TYPE, for jenkins compat
+
+ifndef CD_BUILDTYPE
+    ifdef RELEASE_TYPE
+        # Starting with "CD_" is optional
+        RELEASE_TYPE := $(shell echo $(RELEASE_TYPE) | sed -e 's|^CD_||g')
+        CD_BUILDTYPE := $(RELEASE_TYPE)
+    endif
 endif
-ifdef CD_EXPERIMENTAL
-    CD_BUILDTYPE := EXPERIMENTAL
-endif
-ifdef CD_RELEASE
-    CD_BUILDTYPE := RELEASE
+
+# Filter out random types, so it'll reset to UNOFFICIAL
+ifeq ($(filter RELEASE NIGHTLY SNAPSHOT EXPERIMENTAL,$(CD_BUILDTYPE)),)
+    CD_BUILDTYPE :=
 endif
 
 ifdef CD_BUILDTYPE
-    ifdef CD_EXTRAVERSION
-        # Force build type to EXPERIMENTAL
-        CD_BUILDTYPE := EXPERIMENTAL
-        # Remove leading dash from CD_EXTRAVERSION
-        CD_EXTRAVERSION := $(shell echo $(CD_EXTRAVERSION) | sed 's/-//')
-        # Add leading dash to CD_EXTRAVERSION
-        CD_EXTRAVERSION := -$(CD_EXTRAVERSION)
+    ifneq ($(CD_BUILDTYPE), SNAPSHOT)
+        ifdef CD_EXTRAVERSION
+            # Force build type to EXPERIMENTAL
+            CD_BUILDTYPE := EXPERIMENTAL
+            # Remove leading dash from CM_EXTRAVERSION
+            CD_EXTRAVERSION := $(shell echo $(CD_EXTRAVERSION) | sed 's/-//')
+            # Add leading dash to CD_EXTRAVERSION
+            CD_EXTRAVERSION := -$(CD_EXTRAVERSION)
+        endif
+    else
+        ifndef CD_EXTRAVERSION
+            # Force build type to EXPERIMENTAL, SNAPSHOT mandates a tag
+            CD_BUILDTYPE := EXPERIMENTAL
+        else
+            # Remove leading dash from CD_EXTRAVERSION
+            CD_EXTRAVERSION := $(shell echo $(CD_EXTRAVERSION) | sed 's/-//')
+            # Add leading dash to CD_EXTRAVERSION
+            CD_EXTRAVERSION := -$(CD_EXTRAVERSION)
+        endif
     endif
 else
     # If CD_BUILDTYPE is not defined, set to UNOFFICIAL
@@ -253,6 +269,7 @@ else
     CD_EXTRAVERSION :=
 endif
 
+<<<<<<< HEAD
 ifdef CD_RELEASE
     CD_VERSION := $(PRODUCT_VERSION_MAJOR).$(PRODUCT_VERSION_MINOR)$(PRODUCT_VERSION_DEVICE_SPECIFIC)-$(CD_BUILD)
 else
@@ -260,6 +277,15 @@ else
         CD_VERSION := $(PRODUCT_VERSION_MAJOR)-$(shell date +%Y%m%d)-$(CD_BUILDTYPE)-$(CD_BUILD)$(CD_EXTRAVERSION)
     else
         CD_VERSION := $(PRODUCT_VERSION_MAJOR).$(PRODUCT_VERSION_MINOR)-$(shell date +%Y%m%d)-$(CD_BUILDTYPE)-$(CD_BUILD)$(CD_EXTRAVERSION)
+=======
+ifeq ($(CM_BUILDTYPE), RELEASE)
+    CM_VERSION := $(PRODUCT_VERSION_MAJOR).$(PRODUCT_VERSION_MINOR).$(PRODUCT_VERSION_MAINTENANCE)$(PRODUCT_VERSION_DEVICE_SPECIFIC)-$(CM_BUILD)
+else
+    ifeq ($(PRODUCT_VERSION_MINOR),0)
+        CM_VERSION := $(PRODUCT_VERSION_MAJOR)-$(shell date -u +%Y%m%d)-$(CM_BUILDTYPE)$(CM_EXTRAVERSION)-$(CM_BUILD)
+    else
+        CM_VERSION := $(PRODUCT_VERSION_MAJOR).$(PRODUCT_VERSION_MINOR)-$(shell date -u +%Y%m%d)-$(CM_BUILDTYPE)$(CM_EXTRAVERSION)-$(CM_BUILD)
+>>>>>>> 554f3703e5698308a46559cfa961c510496f5284
     endif
 endif
 
