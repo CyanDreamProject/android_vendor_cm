@@ -83,11 +83,13 @@ PRODUCT_COPY_FILES += \
     vendor/cyandream/CHANGELOG.mkdn:system/etc/CHANGELOG-CM.txt
 
 # Backup Tool
+ifneq ($(WITH_GMS),true)
 PRODUCT_COPY_FILES += \
     vendor/cyandream/prebuilt/common/bin/backuptool.sh:system/bin/backuptool.sh \
     vendor/cyandream/prebuilt/common/bin/backuptool.functions:system/bin/backuptool.functions \
     vendor/cyandream/prebuilt/common/bin/50-cm.sh:system/addon.d/50-cm.sh \
     vendor/cyandream/prebuilt/common/bin/blacklist:system/addon.d/blacklist
+endif
 
 # init.d support
 PRODUCT_COPY_FILES += \
