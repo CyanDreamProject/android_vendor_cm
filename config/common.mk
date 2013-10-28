@@ -1,6 +1,5 @@
 PRODUCT_BRAND ?= cyanogenmod
 
--include vendor/cyandream-priv/keys.mk
 SUPERUSER_EMBEDDED := true
 SUPERUSER_PACKAGE_PREFIX := com.android.settings.cyanogenmod.superuser
 
@@ -282,4 +281,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
   ro.modversion=$(CD_VERSION)
 
 -include vendor/cyandream/sepolicy/sepolicy.mk
+
+-include vendor/cd-priv/keys/keys.mk
+
 -include $(WORKSPACE)/hudson/image-auto-bits.mk
