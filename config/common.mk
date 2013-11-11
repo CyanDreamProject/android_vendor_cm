@@ -160,11 +160,14 @@ PRODUCT_PACKAGES += \
     VoicePlus \
     VoiceDialer \
     SoundRecorder \
-    Basic
+    Basic \
+    libemoji
 
 # Custom CM packages
+    #Trebuchet \
+
 PRODUCT_PACKAGES += \
-    Trebuchet \
+    Launcher3 \
     DSPManager \
     libcyanogen-dsp \
     audio_effects.conf \
@@ -223,6 +226,7 @@ PRODUCT_PACKAGE_OVERLAYS += vendor/cyandream/overlay/common
 
 PRODUCT_VERSION_MAJOR = 1
 PRODUCT_VERSION_MINOR = 0
+PRODUCT_VERSION_MAINTENANCE = kk
 
 # Set CD_BUILDTYPE from the env RELEASE_TYPE, for jenkins compat
 
@@ -279,8 +283,6 @@ endif
 PRODUCT_PROPERTY_OVERRIDES += \
   ro.cm.version=$(CD_VERSION) \
   ro.modversion=$(CD_VERSION)
-
--include vendor/cyandream/sepolicy/sepolicy.mk
 
 -include vendor/cd-priv/keys/keys.mk
 
