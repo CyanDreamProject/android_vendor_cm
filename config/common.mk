@@ -303,7 +303,8 @@ endif
 
 PRODUCT_PROPERTY_OVERRIDES += \
   ro.cm.version=$(CD_VERSION) \
-  ro.modversion=$(CD_VERSION)
+  ro.modversion=$(CD_VERSION) \
+  ro.cmlegal.url=http://www.cyanogenmod.org/docs/privacy
 
 -include vendor/cd-priv/keys/keys.mk
 
