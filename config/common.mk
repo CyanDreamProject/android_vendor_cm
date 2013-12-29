@@ -147,6 +147,7 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     ControlCenter \
     CyanDreamWallpapers \
+    WWPF \
     xdelta3
 
 # Optional CM packages
