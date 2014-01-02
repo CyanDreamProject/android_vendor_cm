@@ -1,9 +1,6 @@
 # Inherit common CM stuff
 $(call inherit-product, vendor/cyandream/config/common.mk)
 
-# Bring in all audio files
-include frameworks/base/data/sounds/NewAudio.mk
-
 # Include CM audio files
 include vendor/cyandream/config/cm_audio.mk
 
