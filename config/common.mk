@@ -101,11 +101,6 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
     vendor/cyandream/prebuilt/common/etc/init.local.rc:root/init.cm.rc
 
-# Compcache/Zram support
-PRODUCT_COPY_FILES += \
-    vendor/cyandream/prebuilt/common/bin/compcache:system/bin/compcache \
-    vendor/cyandream/prebuilt/common/bin/handle_compcache:system/bin/handle_compcache
-
 # Terminal Emulator
 PRODUCT_COPY_FILES +=  \
     vendor/cyandream/proprietary/Term.apk:system/app/Term.apk \
