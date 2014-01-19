@@ -161,7 +161,6 @@ PRODUCT_PACKAGES += \
     Apollo \
     CMFileManager \
     LockClock \
-    CMUpdater \
     CMFota \
     CMAccount
 
@@ -217,8 +216,8 @@ PRODUCT_PACKAGES += \
 
 # Terminal Emulator
 PRODUCT_COPY_FILES +=  \
-    vendor/cm/proprietary/Term.apk:system/app/Term.apk \
-    vendor/cm/proprietary/lib/armeabi/libjackpal-androidterm4.so:system/lib/libjackpal-androidterm4.so
+    vendor/cyandream/proprietary/Term.apk:system/app/Term.apk \
+    vendor/cyandream/proprietary/lib/armeabi/libjackpal-androidterm4.so:system/lib/libjackpal-androidterm4.so
 
 PRODUCT_PROPERTY_OVERRIDES += \
     persist.sys.root_access=1
@@ -298,27 +297,27 @@ PRODUCT_PROPERTY_OVERRIDES += \
 
 -include vendor/cd-priv/keys/keys.mk
 
-CM_DISPLAY_VERSION := $(CM_VERSION)
+CD_DISPLAY_VERSION := $(CD_VERSION)
 
 ifneq ($(DEFAULT_SYSTEM_DEV_CERTIFICATE),)
 ifneq ($(DEFAULT_SYSTEM_DEV_CERTIFICATE),build/target/product/security/testkey)
-  ifneq ($(CM_BUILDTYPE), UNOFFICIAL)
+  ifneq ($(CD_BUILDTYPE), UNOFFICIAL)
     ifndef TARGET_VENDOR_RELEASE_BUILD_ID
-      ifneq ($(CM_EXTRAVERSION),)
-        TARGET_VENDOR_RELEASE_BUILD_ID := $(CM_EXTRAVERSION)
+      ifneq ($(CD_EXTRAVERSION),)
+        TARGET_VENDOR_RELEASE_BUILD_ID := $(CD_EXTRAVERSION)
       else
         TARGET_VENDOR_RELEASE_BUILD_ID := -$(shell date -u +%Y%m%d)
       endif
     else
       TARGET_VENDOR_RELEASE_BUILD_ID := -$(TARGET_VENDOR_RELEASE_BUILD_ID)
     endif
-    CM_DISPLAY_VERSION=$(PRODUCT_VERSION_MAJOR).$(PRODUCT_VERSION_MINOR)$(TARGET_VENDOR_RELEASE_BUILD_ID)
+    CD_DISPLAY_VERSION=$(PRODUCT_VERSION_MAJOR).$(PRODUCT_VERSION_MINOR)$(TARGET_VENDOR_RELEASE_BUILD_ID)
   endif
 endif
 endif
 
 PRODUCT_PROPERTY_OVERRIDES += \
-  ro.cm.display.version=$(CM_DISPLAY_VERSION)
+  ro.cm.display.version=$(CD_DISPLAY_VERSION)
 
 -include $(WORKSPACE)/hudson/image-auto-bits.mk
 
