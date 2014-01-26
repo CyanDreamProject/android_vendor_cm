@@ -299,8 +299,8 @@ PRODUCT_PROPERTY_OVERRIDES += \
 
 CD_DISPLAY_VERSION := $(CD_VERSION)
 
-ifneq ($(DEFAULT_SYSTEM_DEV_CERTIFICATE),)
-ifneq ($(DEFAULT_SYSTEM_DEV_CERTIFICATE),build/target/product/security/testkey)
+ifneq ($(PRODUCT_DEFAULT_DEV_CERTIFICATE),)
+ifneq ($(PRODUCT_DEFAULT_DEV_CERTIFICATE),build/target/product/security/testkey)
   ifneq ($(CD_BUILDTYPE), UNOFFICIAL)
     ifndef TARGET_VENDOR_RELEASE_BUILD_ID
       ifneq ($(CD_EXTRAVERSION),)
