@@ -7,6 +7,9 @@ $(call inherit-product, vendor/cyandream/config/common.mk)
 # Include CM audio files
 include vendor/cyandream/config/cm_audio.mk
 
+# Include CM LatinIME dictionaries
+PRODUCT_PACKAGE_OVERLAYS += vendor/cm/overlay/dictionaries
+
 # Optional CM packages
 PRODUCT_PACKAGES += \
     Galaxy4 \

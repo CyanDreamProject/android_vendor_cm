@@ -232,7 +232,6 @@ endif
 # easy way to extend to add more packages
 -include vendor/extra/product.mk
 
-PRODUCT_PACKAGE_OVERLAYS += vendor/cyandream/overlay/dictionaries
 PRODUCT_PACKAGE_OVERLAYS += vendor/cyandream/overlay/common
 
 PRODUCT_VERSION_MAJOR = 1
