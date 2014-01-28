@@ -8,7 +8,7 @@ $(call inherit-product, vendor/cyandream/config/common.mk)
 include vendor/cyandream/config/cm_audio.mk
 
 # Include CM LatinIME dictionaries
-PRODUCT_PACKAGE_OVERLAYS += vendor/cm/overlay/dictionaries
+PRODUCT_PACKAGE_OVERLAYS += vendor/cyandream/overlay/dictionaries
 
 # Optional CM packages
 PRODUCT_PACKAGES += \
