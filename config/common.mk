@@ -153,19 +153,12 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     VoicePlus \
     Basic \
-<<<<<<< HEAD
-    libemoji \
-    Trebuchet
-
-PRODUCT_PACKAGES += \
-=======
     libemoji
 
 # Custom CM packages
 PRODUCT_PACKAGES += \
     Launcher3 \
     Trebuchet \
->>>>>>> 67e80038e27f2ac226778de73625ddedd2366a26
     DSPManager \
     libcyanogen-dsp \
     audio_effects.conf \
