@@ -325,6 +325,6 @@ endif
 PRODUCT_PROPERTY_OVERRIDES += \
   ro.cm.display.version=$(CD_DISPLAY_VERSION)
 
--include $(WORKSPACE)/hudson/image-auto-bits.mk
+-include $(WORKSPACE)/build_env/image-auto-bits.mk
 
 -include vendor/cyngn/product.mk
