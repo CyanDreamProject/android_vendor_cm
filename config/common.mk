@@ -29,7 +29,11 @@ $(eval TARGET_BOOTANIMATION_NAME := $(shell \
 endef
 $(foreach size,$(bootanimation_sizes), $(call check_and_set_bootanimation,$(size)))
 
+ifeq ($(TARGET_BOOTANIMATION_HALF_RES),true)
+PRODUCT_BOOTANIMATION := vendor/cyandream/prebuilt/common/bootanimation/halfres/$(TARGET_BOOTANIMATION_NAME).zip
+else
 PRODUCT_BOOTANIMATION := vendor/cyandream/prebuilt/common/bootanimation/$(TARGET_BOOTANIMATION_NAME).zip
+endif
 endif
 
 PRODUCT_PROPERTY_OVERRIDES += \
@@ -149,10 +153,19 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     VoicePlus \
     Basic \
+<<<<<<< HEAD
     libemoji \
     Trebuchet
 
 PRODUCT_PACKAGES += \
+=======
+    libemoji
+
+# Custom CM packages
+PRODUCT_PACKAGES += \
+    Launcher3 \
+    Trebuchet \
+>>>>>>> 67e80038e27f2ac226778de73625ddedd2366a26
     DSPManager \
     libcyanogen-dsp \
     audio_effects.conf \
