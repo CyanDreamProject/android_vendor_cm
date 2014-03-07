@@ -4,9 +4,8 @@ $(call inherit-product, vendor/cyandream/config/common.mk)
 # Include CM audio files
 include vendor/cyandream/config/cm_audio.mk
 
-# Default ringtone
+# Default notification/alarm sounds
 PRODUCT_PROPERTY_OVERRIDES += \
-    ro.config.ringtone=Orion.ogg \
     ro.config.notification_sound=Argon.ogg \
     ro.config.alarm_alert=Hassium.ogg
 
