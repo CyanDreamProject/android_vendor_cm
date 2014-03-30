@@ -123,10 +123,6 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
     vendor/cyandream/config/permissions/com.cyanogenmod.android.xml:system/etc/permissions/com.cyanogenmod.android.xml
 
-# Copy prebuilt launcher
-#PRODUCT_COPY_FILES += \
-#		packages/apps/prebuilt/sslauncher_cyandream.apk:system/app/sslauncher_cyandream.apk
-
 # T-Mobile theme engine
 include vendor/cyandream/config/themes_common.mk
 
